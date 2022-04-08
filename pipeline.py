@@ -11,7 +11,7 @@ try:
     print(f'job finished succesfully for day = {day}')
 except Exception as e:
     print(e)
-    print(f'hayo udh ditulis blm argsnyaa')
+    print(f'hayo udh ditulis blm argsnyaaa')
 #cool pandas stuff
 
 #print sentence
