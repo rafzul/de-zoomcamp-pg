@@ -23,8 +23,16 @@ def main(params):
     os.system(f"wget {url} -O {csv_name}")
     #create sqlalchemy postgres engine `database://user:password@host:port/database_name`
     engine = create_engine(f'postgresql//{user}:{password}@{host}:{port}/{db}')
-    #create iterator to read csv
-
+    #create iterator to read csv as chunk
+    df_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000)
+    deef = next(df_iter)
+    #convert pickup time and dropoff time column to timestamps
+    deef.tpep_pickup_datetime = pd.to_datetime(deef.tpep_pickup_datetime)
+    deef.tpep_dropoff_datetime = pd.to_datetime(deef.tpep_dropoff_datetime)
+    #get schema 
+    tableschemas = pd.io.sql.get_schema(deef,name=table_name)
+    #finally, create table in the database
+    
 
 
 
