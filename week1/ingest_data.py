@@ -30,9 +30,9 @@ def main(params):
     deef.tpep_pickup_datetime = pd.to_datetime(deef.tpep_pickup_datetime)
     deef.tpep_dropoff_datetime = pd.to_datetime(deef.tpep_dropoff_datetime)
     #get schema 
-    tableschemas = pd.io.sql.get_schema(deef,name=table_name)
+    tableschema = pd.io.sql.get_schema(deef,name=table_name)
     #finally, create table in the database
-    
+
 
 
 
