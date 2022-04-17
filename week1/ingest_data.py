@@ -54,7 +54,7 @@ def main(params):
             print('completed')
             engine.dispose()
             break
-if __name__ = __main__:
+if __name__ == '__main__' :
     #create the parser object
     parser = argparse.ArgumentParser(desription='process command line arguments')
 
