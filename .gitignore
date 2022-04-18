@@ -1,0 +1,20 @@
+#file gede2
+.csv
+**/.csv
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+**/venv
+
+#csv
+ny_taxi_postgres_data/
+**/ny_taxi_postgres_data/
+week1/output.csv
+week1/taxi+_zone_lookup.csv
+week1/yellow_tripdata_2021-01.csv
