@@ -20,11 +20,32 @@ def main(params):
     csv_name = 'output.csv'
 
     #download the CSV
-    os.system(f"wget {url} -O {csv_name}")
+    # os.system(f"wget {url} -O {csv_name}")
     #create sqlalchemy postgres engine `database://user:password@host:port/database_name`
     engine = create_engine(f'postgresql//{user}:{password}@{host}:{port}/{db}')
+    #create data type definition for read_csv()
+    ny_yellowtaxi_datatype = {
+        'VendorID': 'int', 
+        'tpep_pickup_datetime': dtype('O'), 
+        'tpep_dropoff_datetime': dtype('O'), 
+        'passenger_count': 'int', 
+        'trip_distance': 'float', 
+        'RatecodeID': 'int', 
+        'store_and_fwd_flag': 'string', 
+        'PULocationID': 'int', 
+        'DOLocationID': 'int', 
+        'payment_type': 'int', 
+        'fare_amount': 'float', 
+        'extra': 'float', 
+        'mta_tax': 'float', 
+        'tip_amount': 'float', 
+        'tolls_amount': 'float', 
+        'improvement_surcharge': 'float', 
+        'total_amount': 'float', 
+        'congestion_surcharge': 'float'
+    }
     #create iterator object to read csv as chunk
-    deef_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000)
+    deef_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000, dtype=ny_yellowtaxi_datatype, parse_dates=['tpep_pickup_datetime', 'tpep_dropoff_datetime'])
     #get first chunk
     deef = next(deef_iter)
     #convert pickup time and dropoff time column to timestamps
