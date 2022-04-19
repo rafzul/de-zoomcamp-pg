@@ -21,7 +21,7 @@ def main(params):
     csv_name = 'output.csv'
 
     #download the CSV
-    # os.system(f"wget {url} -O {csv_name}")
+    os.system(f"wget {url} -O {csv_name}")
     #create sqlalchemy postgres engine `database://user:password@host:port/database_name`
     engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
     #define date parser format
