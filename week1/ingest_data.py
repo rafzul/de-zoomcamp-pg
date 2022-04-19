@@ -5,6 +5,7 @@ import os
 import argparse
 
 from time import time 
+from datetime import datetime
 
 import pandas as pd
 from sqlalchemy import create_engine    
@@ -22,35 +23,16 @@ def main(params):
     #download the CSV
     # os.system(f"wget {url} -O {csv_name}")
     #create sqlalchemy postgres engine `database://user:password@host:port/database_name`
-    engine = create_engine(f'postgresql//{user}:{password}@{host}:{port}/{db}')
-    #create data type definition for read_csv()
-    ny_yellowtaxi_datatype = {
-        'VendorID': 'int', 
-        'tpep_pickup_datetime': dtype('O'), 
-        'tpep_dropoff_datetime': dtype('O'), 
-        'passenger_count': 'int', 
-        'trip_distance': 'float', 
-        'RatecodeID': 'int', 
-        'store_and_fwd_flag': 'string', 
-        'PULocationID': 'int', 
-        'DOLocationID': 'int', 
-        'payment_type': 'int', 
-        'fare_amount': 'float', 
-        'extra': 'float', 
-        'mta_tax': 'float', 
-        'tip_amount': 'float', 
-        'tolls_amount': 'float', 
-        'improvement_surcharge': 'float', 
-        'total_amount': 'float', 
-        'congestion_surcharge': 'float'
-    }
+    engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
+    #define date parser format
+    dateparseformat = lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
     #create iterator object to read csv as chunk
-    deef_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000, dtype=ny_yellowtaxi_datatype, parse_dates=['tpep_pickup_datetime', 'tpep_dropoff_datetime'])
+    deef_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000, parse_dates=['tpep_pickup_datetime', 'tpep_dropoff_datetime'], dtype={'store_and_fwd_flag': 'str'}, date_parser=dateparseformat, na_filter=True, na_values='')
     #get first chunk
     deef = next(deef_iter)
     #convert pickup time and dropoff time column to timestamps
-    deef.tpep_pickup_datetime = pd.to_datetime(deef.tpep_pickup_datetime)
-    deef.tpep_dropoff_datetime = pd.to_datetime(deef.tpep_dropoff_datetime)
+    # deef.tpep_pickup_datetime = pd.to_datetime(deef.tpep_pickup_datetime)
+    # deef.tpep_dropoff_datetime = pd.to_datetime(deef.tpep_dropoff_datetime)
     #finally, create table in the database (empty table first, generate only the column). schema is inferred from the fetched df
     deef.head(0).to_sql(name=table_name, con=engine, if_exists='replace')
     #get the iteration to get the first chunk of CSV and append to table
@@ -64,8 +46,8 @@ def main(params):
             #get next chunks
             deef = next(deef_iter)
             #convert pickup time & dropoff time column type of next chunk
-            deef.tpep_pickup_datetime = pd.to_datetime(deef.tpep_pickup_datetime)
-            deef.tpep_dropoff_datetime = pd.to_do_datetime(deef.tpep_dropoff_datetime)
+            # deef.tpep_pickup_datetime = pd.to_datetime(deef.tpep_pickup_datetime)
+            # deef.tpep_dropoff_datetime = pd.to_do_datetime(deef.tpep_dropoff_datetime)
             #get the iteration to get next chunk of CSV and append to table 
             deef.to_sql(name=table_name, con=engine, if_exists='append')
             #get end time & print log messages
@@ -77,8 +59,7 @@ def main(params):
             break
 if __name__ == '__main__' :
     #create the parser object
-    parser = argparse.ArgumentParser(desription='process command line arguments')
-
+    parser = argparse.ArgumentParser(description='process command line arguments')
     #adding arguments
     parser.add_argument('--user', help='username for Postgres')
     parser.add_argument('--password', help='password for Postgres')
@@ -86,7 +67,7 @@ if __name__ == '__main__' :
     parser.add_argument('--port', help='port for postgres')
     parser.add_argument('--db', help='database name for postgres')
     parser.add_argument('--table_name', help='table name for postgres where we will write the results of csv read loops')
-    parser.add_arguments('--url', help='url of the csv file')
+    parser.add_argument('--url', help='url of the csv file')
 
     #getting the arguments that we add in command line when we run the program by parsing all the inputted flag
     args = parser.parse_args()
