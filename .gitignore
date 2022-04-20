@@ -11,8 +11,12 @@ ENV/
 env.bak/
 venv.bak/
 **/venv
-**/**/dtc-de-347809-50afb00d4637.json
-/week2/dtc-de-347809-50afb00d4637.json
+week2/dtc-de-347809-50afb00d4637.json
+auth/
+auth/dtc-de-347809-50afb00d4637.json
+auth/dtc-de-347815-f2a749cd2413.json
+**/rootkey.csv
+auth/rootkey.csv
 
 #csv
 data_pgadmin
