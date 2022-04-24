@@ -1,6 +1,6 @@
-This is my repository for my progress on DataTalksClub's self-paced Data Engineering Zoomcamp. 
+This is repository for my progress on DataTalksClub's self-paced Data Engineering Zoomcamp. 
 https://www.youtube.com/watch?v=bkJZDmreIpA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb
-I'm doing this materials in hopes of refreshing materials on general Data Engineering pipeline building.
+I'm doing this materials in hopes of refreshing knowledge on general Data Engineering pipeline building.
 
 Course is divided into 8 Weeks. I'm on my way on Week 5, though some sections have been skipped for my own focus. 
 
