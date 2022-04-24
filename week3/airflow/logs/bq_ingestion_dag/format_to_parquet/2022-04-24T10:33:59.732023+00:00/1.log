@@ -1,0 +1,22 @@
+[2022-04-24 10:34:44,609] {taskinstance.py:1032} INFO - Dependencies all met for <TaskInstance: bq_ingestion_dag.format_to_parquet manual__2022-04-24T10:33:59.732023+00:00 [queued]>
+[2022-04-24 10:34:44,622] {taskinstance.py:1032} INFO - Dependencies all met for <TaskInstance: bq_ingestion_dag.format_to_parquet manual__2022-04-24T10:33:59.732023+00:00 [queued]>
+[2022-04-24 10:34:44,622] {taskinstance.py:1238} INFO - 
+--------------------------------------------------------------------------------
+[2022-04-24 10:34:44,623] {taskinstance.py:1239} INFO - Starting attempt 1 of 2
+[2022-04-24 10:34:44,623] {taskinstance.py:1240} INFO - 
+--------------------------------------------------------------------------------
+[2022-04-24 10:34:44,645] {taskinstance.py:1259} INFO - Executing <Task(PythonOperator): format_to_parquet> on 2022-04-24 10:33:59.732023+00:00
+[2022-04-24 10:34:44,659] {standard_task_runner.py:52} INFO - Started process 132 to run task
+[2022-04-24 10:34:44,669] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'bq_ingestion_dag', 'format_to_parquet', 'manual__2022-04-24T10:33:59.732023+00:00', '--job-id', '101', '--raw', '--subdir', 'DAGS_FOLDER/bq_ingestion_dag.py', '--cfg-path', '/tmp/tmpkshxfp6u', '--error-file', '/tmp/tmpvluzp_l8']
+[2022-04-24 10:34:44,672] {standard_task_runner.py:77} INFO - Job 101: Subtask format_to_parquet
+[2022-04-24 10:34:44,829] {logging_mixin.py:109} INFO - Running <TaskInstance: bq_ingestion_dag.format_to_parquet manual__2022-04-24T10:33:59.732023+00:00 [running]> on host 8273b81fdd35
+[2022-04-24 10:34:44,904] {taskinstance.py:1426} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=bq_ingestion_dag
+AIRFLOW_CTX_TASK_ID=format_to_parquet
+AIRFLOW_CTX_EXECUTION_DATE=2022-04-24T10:33:59.732023+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-04-24T10:33:59.732023+00:00
+[2022-04-24 10:34:45,993] {python.py:175} INFO - Done. Returned value was: None
+[2022-04-24 10:34:46,004] {taskinstance.py:1277} INFO - Marking task as SUCCESS. dag_id=bq_ingestion_dag, task_id=format_to_parquet, execution_date=20220424T103359, start_date=20220424T103444, end_date=20220424T103446
+[2022-04-24 10:34:46,090] {local_task_job.py:154} INFO - Task exited with return code 0
+[2022-04-24 10:34:46,138] {local_task_job.py:264} INFO - 1 downstream tasks scheduled from follow-on schedule check
