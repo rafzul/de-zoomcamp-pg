@@ -10,13 +10,14 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+**/.env
 **/venv
-week2/dtc-de-347809-50afb00d4637.json
 auth/
-auth/dtc-de-347809-50afb00d4637.json
-auth/dtc-de-347815-f2a749cd2413.json
+auth/google_credentials.json
 **/rootkey.csv
 auth/rootkey.csv
+
+terraform/
 
 #csv
 data_pgadmin
