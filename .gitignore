@@ -17,7 +17,11 @@ auth/google_credentials.json
 **/rootkey.csv
 auth/rootkey.csv
 
+#folders
+**/.ipynb_checkpoints/
 terraform/
+**/data/
+data/
 
 #csv
 data_pgadmin
