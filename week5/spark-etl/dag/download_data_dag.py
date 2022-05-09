@@ -1,8 +1,9 @@
 from airflow.operators import BashOperator
 from airflow.models import DAG
-# from datetime import datetime, timedelta
 from datetime import datetime
 from pathlib import path
+import pyspark
+from pyspark.sql import SparkSession, types
 
 
 #setting up Bash parametrization
@@ -14,12 +15,33 @@ logical_date = "{{ ds }}"
 MONTH = datetime.strptime(logical_date, "%m")
 YEAR = datetime.strptime(logical_date, "%y")
 
-#setting up bash script for downloading data (minus the looping, will be done together with the parquetization task for each taxi type/month/   x`year inside dag)
+#setting up external script path
+EXTSCRIPT_PATH = "../scripts/"
 
+
+#instance a spark session
+spark = SparkSession.builder \
+    .maste("local[*]") \
+    .appName('sparknytaxi') \ 
+    .getOrCreate()
+
+#setting up script for parquetizing
+def parquetize_data(schema_file, csv_file):
+    df_parquetized = spark.read \
+    .option("header", "true") \
+    .schema(schema_file) \
+    .csv(csv_file)
+
+     
+
+
+
+
+#setting up DAG
 default_args = {
     "owner": "rafzul",
     "start_date": datetime(2020,1,1),
-    "end_date": datetime(2020,3,1)
+    "end_date": datetime(2020,2,1)
     "schedule_interval"="@monthly",
     "depends_on_past": False,
     "retries": 1,
@@ -41,12 +63,15 @@ with DAG(
     download_data_task = BashOperator(
         task_id='download_data',
         bash_command="../scripts/download_data.sh",
-        params= {"TAXI_TYPE": TAXI_TYPE, "YEAR": YEAR, "MONTH": MONTH},        
+        params= {"TAXI_TYPE": TAXI_TYPE, "YEAR": YEAR, "MONTH": MONTH, "URL_PREFIX": URL_PREFIX},        
     )
 
-    schema_file = Path(f"../scripts/nytaxi_schema_{TAXI_TYPE}")
-    if schema_file.exists():
-        
-    else:
-        schema_and_parquetize_task = PythonOperator(
-        )
+    schema_file = Path(f"../schemas/nytaxi_schema_{TAXI_TYPE}")
+   
+    parquetize_data_task = PythonOperator(
+        task_id="parquetize_data",
+        python_callable=parquetize_data,
+        op_kwargs={
+            "schema": schema_file,
+        },
+    )

@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
 
-TAXI_TYPE=$1 # "yellow"
-YEAR=$2 # 2020
+
 
 URL_PREFIX="https://s3.amazonaws.com/nyc-tlc/trip+data"
 
