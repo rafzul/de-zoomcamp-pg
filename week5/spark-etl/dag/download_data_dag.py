@@ -10,6 +10,12 @@ from pyspark.sql import SparkSession, types
 TAXI_TYPE="yellow"
 URL_PREFIX="https://s3.amazonaws.com/nyc-tlc/trip+data"
 
+FMONTH= `printf "%02d" ${MONTH}`
+URL="${URL_PREFIX}/${TAXI_TYPE}_tripdata_${YEAR}-${FMONTH}.csv"
+LOCAL_PREFIX="/media/rafzul/"Terminal Dogma"/nytaxidata/raw/${TAXI_TYPE}/${YEAR}/${MONTH}"
+LOCAL_FILE="${TAXI_TYPE}_tripdata_${YEAR}-${FMONTH}.csv"
+LOCAL_PATH="${LOCAL_PREFIX}/${LOCAL_FILE}"
+
 #getting month and year
 logical_date = "{{ ds }}"
 MONTH = datetime.strptime(logical_date, "%m")
@@ -32,9 +38,8 @@ def parquetize_data(schema_file, csv_file):
     .schema(schema_file) \
     .csv(csv_file)
 
-     
-
-
+    df_parquetized = df_parquetized.repartition(24)
+    df.write.parquet("media/rafzul/"Terminal Dogma"/nytaxidata/raw/{TAXI_TYPE}/{YEAR}/{MONTH}")
 
 
 #setting up DAG
@@ -73,5 +78,11 @@ with DAG(
         python_callable=parquetize_data,
         op_kwargs={
             "schema": schema_file,
+            "csv_file": ,
         },
     )
+    download_data_task >> parquetize_data_task
+
+
+
+
